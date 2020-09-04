@@ -37,7 +37,7 @@ constexpr bool derives_from()
 template<typename T, typename Base>
 constexpr bool derives_from()
 {
-  return std::is_base_of_v<Base, T>;
+  return std::is_base_of<Base, T>::value;
 }
 
 /** Used to enable a function for a list of types.
@@ -47,7 +47,7 @@ constexpr bool derives_from()
  * Use as template<typename T, enable_for_t<T,B1, B2, ..., ..., Bk>=0>
  */
 template<typename T, typename... Base>
-using enable_for_t = std::enable_if_t<(... || (std::is_same_v<T, Base> || derives_from<T, Base>())), int>;
+using enable_for_t = typename std::enable_if<(... || (std::is_same<T, Base>::value || derives_from<T, Base>())), int>::type;
 
 /** Used to enable a function for a list of templated classes.
  *
@@ -56,7 +56,7 @@ using enable_for_t = std::enable_if_t<(... || (std::is_same_v<T, Base> || derive
  * Use as template<typename T, enable_for_templated_t<T,B1, B2, ..., ..., Bk>=0>
  */
 template<typename T, template<typename...> class... Base>
-using enable_for_templated_t = std::enable_if_t<(... || derives_from<T, Base>()), int>;
+using enable_for_templated_t = typename std::enable_if<(... || derives_from<T, Base>()), int>::type;
 
 /** A sink, whose value is always true. */
 template<typename T>

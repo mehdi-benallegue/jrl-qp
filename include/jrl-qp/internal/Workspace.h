@@ -17,6 +17,11 @@ struct NotConst
 template<typename Scalar = double>
 class JRLQP_DLLAPI Workspace
 {
+
+
+private:
+    Eigen::Matrix<Scalar, Eigen::Dynamic, 1> buffer_; 
+
 public:
   /** Default constructor, providing a buffer of size 0.*/
   Workspace() : buffer_(0) {}
@@ -57,7 +62,7 @@ public:
   /** Return the buffer as a Eigen::Vector-like object of the required size.
    * Non const version.
    */
-  auto asVector(int size, NotConst = {})
+  auto asVector (int size, NotConst = {}) -> decltype(this->buffer_.head(size)) 
   {
     assert(size <= buffer_.size());
     return buffer_.head(size);
@@ -66,7 +71,7 @@ public:
   /** Return the buffer as a Eigen::Vector-like object of the required size.
    * Const version.
    */
-  auto asVector(int size) const
+  auto asVector  (int size) const -> decltype(this->buffer_.head(size))
   {
     assert(size <= buffer_.size());
     return buffer_.head(size);
@@ -83,7 +88,8 @@ public:
    * size is meant to change, so that each columns start with the same
    * elements.
    */
-  auto asMatrix(int rows, int cols, int ld, NotConst = {})
+  Eigen::Map<Eigen::MatrixXd,0, Eigen::Stride<Eigen::Dynamic, 1> > 
+        asMatrix(int rows, int cols, int ld, NotConst = {})
   {
     assert(ld * cols <= buffer_.size());
     assert(ld >= rows);
@@ -95,7 +101,8 @@ public:
    * Const version.
    * See non-const version for more details
    */
-  auto asMatrix(int rows, int cols, int ld) const
+  Eigen::Map<const Eigen::MatrixXd, 0, Eigen::Stride<Eigen::Dynamic, 1> > 
+        asMatrix(int rows, int cols, int ld) const
   {
     assert(ld * cols <= buffer_.size());
     assert(ld >= rows);
@@ -109,8 +116,6 @@ public:
     buffer_.setZero();
   }
 
-private:
-  Eigen::Matrix<Scalar, Eigen::Dynamic, 1> buffer_;
 };
 } // namespace jrl::qp::internal
 
@@ -119,5 +124,5 @@ namespace jrl::qp
 /** Type of a Eigen::Vector-like object from Workspace*/
 using WVector = decltype(internal::Workspace<double>().asVector(0));
 /** Type of a const Eigen::Vector-like object from Workspace*/
-using WConstVector = decltype(std::add_const_t<internal::Workspace<double>>().asVector(0));
+using WConstVector = decltype(std::add_const<internal::Workspace<double> >::type{}.asVector(0));
 } // namespace jrl::qp

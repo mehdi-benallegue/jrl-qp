@@ -25,7 +25,7 @@ TEST_CASE("Compare")
   for(int i = 0; i <= N; ++i)
   {
     auto pb = generateBoxAndSingleConstraintProblem(nbVar, false);
-    test::QPProblem qpp(pb);
+    test::QPProblem<> qpp(pb);
     GIsolver.solve(qpp.G, qpp.a, qpp.C, qpp.l, qpp.u, qpp.xl, qpp.xu);
     solver.solve(pb.b, pb.C, pb.l[0], pb.xl, pb.xu);
 
@@ -37,7 +37,7 @@ TEST_CASE("Compare")
   for(int i = 0; i <= N; ++i)
   {
     auto pb = generateBoxAndSingleConstraintProblem(nbVar, true);
-    test::QPProblem qpp(pb);
+    test::QPProblem<> qpp(pb);
     GIsolver.solve(qpp.G, qpp.a, qpp.C, qpp.l, qpp.u, qpp.xl, qpp.xu);
     solver.solve(pb.b, pb.C, pb.l[0], pb.xl, pb.xu);
 

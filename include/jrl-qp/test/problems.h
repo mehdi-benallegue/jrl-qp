@@ -61,11 +61,11 @@ struct JRLQP_DLLAPI SeparatedFeasibilityConstraints : public FeasibilityConstrai
  */
 template<bool Separated = false>
 struct LeastSquareProblem
-: public std::conditional_t<Separated, SeparatedFeasibilityConstraints, FeasibilityConstraints>
+: public std::conditional<Separated, SeparatedFeasibilityConstraints, FeasibilityConstraints>::type
 {
   bool wellFormed() const;
 
-  using Base = std::conditional_t<Separated, SeparatedFeasibilityConstraints, FeasibilityConstraints>;
+  using Base = typename std::conditional<Separated, SeparatedFeasibilityConstraints, FeasibilityConstraints>::type;
   Eigen::MatrixXd A;
   Eigen::VectorXd b;
 };
@@ -77,7 +77,7 @@ struct LeastSquareProblem
  * if \tparam Separated = true and FeasibilityConstraints otherwise.
  */
 template<bool Separated = false>
-struct QPProblem : public std::conditional_t<Separated, SeparatedFeasibilityConstraints, FeasibilityConstraints>
+struct QPProblem : public std::conditional<Separated, SeparatedFeasibilityConstraints, FeasibilityConstraints>::type
 {
   QPProblem() = default;
   QPProblem(const QPProblem &) = default;
@@ -92,7 +92,7 @@ struct QPProblem : public std::conditional_t<Separated, SeparatedFeasibilityCons
   QPProblem & operator=(const QPProblem<!Separated> & qp);
   bool wellFormed() const;
 
-  using Base = std::conditional_t<Separated, SeparatedFeasibilityConstraints, FeasibilityConstraints>;
+  using Base = typename std::conditional<Separated, SeparatedFeasibilityConstraints, FeasibilityConstraints>::type;
   Eigen::MatrixXd G;
   Eigen::VectorXd a;
   double objCst = 0;

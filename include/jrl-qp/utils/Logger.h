@@ -36,7 +36,7 @@ public:
   Logger & setOutputStream(std::ostream & os);
 
   /** Log a comment \p c, if \p flag pass the filter.*/
-  void comment(std::uint32_t flag, std::string_view c) const;
+  void comment(std::uint32_t flag, std::string c) const;
   /** Indicate that a new iteration of the solver is starting.*/
   void startIter(int i);
   /** Log a given number of values.
