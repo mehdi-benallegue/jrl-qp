@@ -7,7 +7,7 @@ set(PROJECT_DEBUG_POSTFIX "_d")
 set(PROJECT_VERSION 0.1.0)
 set(PROJECT_USE_CMAKE_EXPORT TRUE)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
 
 include(cmake/base.cmake)
 include(cmake/msvc-specific.cmake)
