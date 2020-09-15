@@ -131,11 +131,15 @@ struct NamedValue
   double value;
 };
 
-std::optional<NamedValue> readNamedValue(std::istream & is, const QPSReader::Context & c, bool second)
+NamedValue readNamedValue(std::istream & is, const QPSReader::Context & c, bool second)
 {
   NamedValue r;
   is >> r.name;
-  if(is.eof() && second) return {};
+  if(is.eof() && second)
+  {
+    r.name = "_MEHDI_EDIT_empty-name";
+    return r;
+  }
   if(is.fail()) THROW("Failed to read " << (second ? "second" : "first") << " name ", c);
 
   is >> r.value;
@@ -147,7 +151,7 @@ struct ParsedValueLine
 {
   std::string name;
   NamedValue val1;
-  std::optional<NamedValue> val2;
+  NamedValue val2;
 };
 
 ParsedValueLine parseValueLine(const std::string & line, const QPSReader::Context & c)
@@ -158,7 +162,7 @@ ParsedValueLine parseValueLine(const std::string & line, const QPSReader::Contex
   is >> pvl.name;
   if(is.fail()) THROW("Failed to read " << lineName[static_cast<int>(c.line)] << " name ", c);
 
-  pvl.val1 = *readNamedValue(is, c, false);
+  pvl.val1 = readNamedValue(is, c, false);
   pvl.val2 = readNamedValue(is, c, true);
 
   return pvl;
@@ -367,7 +371,11 @@ void QPSReader::readRow(const std::string & line)
 
 void QPSReader::readColumn(const std::string & line)
 {
-  auto [colName, val1, val2] = parseValueLine(line, context);
+  auto p = parseValueLine(line, context);
+
+  auto colName = p.name;
+  auto val1 = p.val1;
+  auto val2 = p.val2;
 
   // If this is a new column, add it to mapCol, otherwise retrieve its index
   int cIdx;
@@ -383,7 +391,7 @@ void QPSReader::readColumn(const std::string & line)
 
   // Add values
   addValueToColumn(cIdx, val1.name, val1.value);
-  if(val2) addValueToColumn(cIdx, val2->name, val2->value);
+  if(val2.name != "_MEHDI_EDIT_empty-name") addValueToColumn(cIdx, val2.name, val2.value);
 }
 
 void QPSReader::addValueToColumn(int cIdx, const std::string & rowName, double val)
@@ -397,19 +405,26 @@ void QPSReader::addValueToColumn(int cIdx, const std::string & rowName, double v
 
 void QPSReader::readRHS(const std::string & line)
 {
-  auto [name, val1, val2] = parseValueLine(line, context);
+  auto p = parseValueLine(line, context);
+
+  auto name = p.name;
+  auto val1 = p.val1;
+  auto val2 = p.val2;
+
   if(rhsName.empty())
     rhsName = name;
   else if(rhsName != name)
     THROW("Attempting to use different RHS name. I don't know what this means ", context);
 
   addValueToRHS(val1.name, val1.value);
-  if(val2) addValueToRHS(val2->name, val2->value);
+  if(val2.name != "_MEHDI_EDIT_empty-name") addValueToRHS(val2.name, val2.value);
 }
 
 void QPSReader::addValueToRHS(const std::string & rowName, double val)
 {
-  auto [rIdx, rType] = mapRow.at(rowName);
+  auto m = mapRow.at(rowName);
+  auto rIdx = m.first;
+  auto rType = m.second;
   if(rType == RowType::N)
     objCst = -val; // minus because the rhs in on the wrong side
   else
@@ -418,14 +433,18 @@ void QPSReader::addValueToRHS(const std::string & rowName, double val)
 
 void QPSReader::readRanges(const std::string & line)
 {
-  auto [name, val1, val2] = parseValueLine(line, context);
+  auto p = parseValueLine(line, context);
+
+  auto name = p.name;
+  auto val1 = p.val1;
+  auto val2 = p.val2;
   if(rangeName.empty())
     rangeName = name;
   else if(rangeName != name)
     THROW("Attempting to use different range name. I don't know what this means ", context);
 
   addValueToRanges(val1.name, val1.value);
-  if(val2) addValueToRanges(val2->name, val2->value);
+  if(val2.name != "_MEHDI_EDIT_empty-name") addValueToRanges(val2.name, val2.value);
 }
 
 void QPSReader::addValueToRanges(const std::string & rowName, double val)
@@ -458,7 +477,9 @@ void QPSReader::readBounds(const std::string & line)
   }
   else
   {
-    auto [colName, val] = *readNamedValue(is, context, false);
+    auto n = readNamedValue(is, context, false);
+    auto colName = n.name;
+    auto val = n.value;
     int cIdx = mapCol.at(colName);
     xVal.push_back({{cIdx, val}, type});
   }
@@ -467,14 +488,19 @@ void QPSReader::readBounds(const std::string & line)
 void QPSReader::readQuadObj(const std::string & line)
 {
   std::istringstream is(line);
-  auto [colName, val1, val2] = parseValueLine(line, context);
+  auto p = parseValueLine(line, context);
+
+  auto colName = p.name;
+  auto val1 = p.val1;
+  auto val2 = p.val2;
+
   int cIdx = mapCol.at(colName);
   int rIdx = mapCol.at(val1.name);
   GVal.push_back({rIdx, cIdx, val1.value});
-  if(val2)
+  if(val2.name != "_MEHDI_EDIT_empty-name")
   {
-    rIdx = mapCol.at(val2->name);
-    GVal.push_back({rIdx, cIdx, val2->value});
+    rIdx = mapCol.at(val2.name);
+    GVal.push_back({rIdx, cIdx, val2.value});
   }
 }
 } // namespace jrl::qp::test

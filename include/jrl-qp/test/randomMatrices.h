@@ -28,6 +28,7 @@ struct scalar_normal_random_op
  * \param stddev Standard deviation parameter of the normal distribution.
  */
 inline auto randnVec(Eigen::Index size, double mean = 0, double stddev = 1)
+    -> decltype(Eigen::VectorXd::NullaryExpr(size, scalar_normal_random_op<double>(mean, stddev)))
 {
   return Eigen::VectorXd::NullaryExpr(size, scalar_normal_random_op<double>(mean, stddev));
 }
@@ -39,6 +40,7 @@ inline auto randnVec(Eigen::Index size, double mean = 0, double stddev = 1)
  * \param stddev Standard deviation parameter of the normal distribution.
  */
 inline auto randnMat(Eigen::Index rows, Eigen::Index cols, double mean = 0, double stddev = 1)
+    -> decltype(Eigen::MatrixXd::NullaryExpr(rows, cols, scalar_normal_random_op<double>(mean, stddev)))
 {
   return Eigen::MatrixXd::NullaryExpr(rows, cols, scalar_normal_random_op<double>(mean, stddev));
 }

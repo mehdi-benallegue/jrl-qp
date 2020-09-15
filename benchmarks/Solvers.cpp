@@ -108,8 +108,7 @@ struct VFrac
 template<bool bounds, bool doubleSided>
 constexpr int packBool()
 {
-  int r = bounds ? 1 : 0;
-  return doubleSided ? r + 2 : r;
+  return doubleSided ? (bounds ? 1 : 0) + 2 : (bounds ? 1 : 0);
 }
 
 /** Helper function used for generating the signature of a problem*/

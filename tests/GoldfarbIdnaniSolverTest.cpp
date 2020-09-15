@@ -72,7 +72,7 @@ TEST_CASE("Simple problem paper")
 
 TEST_CASE("Random problems")
 {
-  std::vector problems = {
+  std::vector<RandomLeastSquare> problems = {
       randomProblem(ProblemCharacteristics(5, 5)), randomProblem(ProblemCharacteristics(5, 5).nEq(2)),
       randomProblem(ProblemCharacteristics(5, 5).nIneq(8).nStrongActIneq(4)),
       randomProblem(ProblemCharacteristics(5, 5, 2, 6).nStrongActIneq(3)),
@@ -80,7 +80,7 @@ TEST_CASE("Random problems")
 
   for(const auto & pb : problems)
   {
-    QPProblem qpp(pb);
+    QPProblem<> qpp(pb);
     MatrixXd G = qpp.G; // copy for later check
     GoldfarbIdnaniSolver solver(qpp.G.rows(), qpp.C.rows(), pb.bounds);
     jrl::qp::internal::set_is_malloc_allowed(false);
@@ -98,7 +98,7 @@ TEST_CASE("Random problems")
 
 TEST_CASE("Multiple uses")
 {
-  std::vector problems = {
+  std::vector<RandomLeastSquare> problems = {
       randomProblem(ProblemCharacteristics(5, 5)), randomProblem(ProblemCharacteristics(5, 5).nEq(2)),
       randomProblem(ProblemCharacteristics(5, 5).nIneq(8).nStrongActIneq(4)),
       randomProblem(ProblemCharacteristics(5, 5, 2, 6).nStrongActIneq(3)),
@@ -107,7 +107,7 @@ TEST_CASE("Multiple uses")
   GoldfarbIdnaniSolver solver(5, 8, true);
   for(const auto & pb : problems)
   {
-    QPProblem qpp(pb);
+    QPProblem<> qpp(pb);
     MatrixXd G = qpp.G; // copy for later check
     jrl::qp::internal::set_is_malloc_allowed(false);
     auto ret = solver.solve(qpp.G, qpp.a, qpp.C.transpose(), qpp.l, qpp.u, qpp.xl, qpp.xu);

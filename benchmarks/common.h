@@ -4,7 +4,7 @@
 
 static inline void testSizes(benchmark::internal::Benchmark * b)
 {
-  std::vector sizes = {5, 10, 20, 30, 50, 70, 100, 150, 200, 250, 300, 400, 500};
+  std::vector<int> sizes = {5, 10, 20, 30, 50, 70, 100, 150, 200, 250, 300, 400, 500};
   for(auto i : sizes) b->Args({i});
 }
 
