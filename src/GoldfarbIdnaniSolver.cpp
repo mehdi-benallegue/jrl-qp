@@ -7,7 +7,9 @@
 
 using Givens = Eigen::JacobiRotation<double>;
 
-namespace jrl::qp
+namespace jrl
+{
+namespace qp
 {
 GoldfarbIdnaniSolver::GoldfarbIdnaniSolver() : DualSolver(), work_d_(0), work_J_(0), work_R_(0) {}
 
@@ -96,17 +98,22 @@ internal::ConstraintNormal GoldfarbIdnaniSolver::selectViolatedConstraint_(const
     if(!A_.isActive(i))
     {
       double cx = pb_.C.col(i).dot(x); // possible [OPTIM]: should we compute C^T x at once ?
-      if(double sl = cx - pb_.bl[i]; sl < smin)
+      double sl = cx - pb_.bl[i];
+      if(sl < smin)
       {
         smin = sl;
         p = i;
         status = ActivationStatus::LOWER;
       }
-      else if(double su = pb_.bu[i] - cx; su < smin)
+      else
       {
-        smin = su;
-        p = i;
-        status = ActivationStatus::UPPER;
+        double su = pb_.bu[i] - cx;
+        if(su < smin)
+        {
+          smin = su;
+          p = i;
+          status = ActivationStatus::UPPER;
+        }
       }
     }
   }
@@ -116,17 +123,22 @@ internal::ConstraintNormal GoldfarbIdnaniSolver::selectViolatedConstraint_(const
   {
     if(!A_.isActiveBnd(i))
     {
-      if(double sl = x[i] - pb_.xl[i]; sl < smin)
+      double sl = x[i] - pb_.xl[i];
+      if(sl < smin)
       {
         smin = sl;
         p = A_.nbCstr() + i;
         status = ActivationStatus::LOWER_BOUND;
       }
-      else if(double su = pb_.xu[i] - x[i]; su < smin)
+      else
       {
-        smin = su;
-        p = A_.nbCstr() + i;
-        status = ActivationStatus::UPPER_BOUND;
+        double su = pb_.xu[i] - x[i];
+        if(su < smin)
+        {
+          smin = su;
+          p = A_.nbCstr() + i;
+          status = ActivationStatus::UPPER_BOUND;
+        }
       }
     }
   }
@@ -162,7 +174,8 @@ DualSolver::StepLength GoldfarbIdnaniSolver::computeStepLength_(const internal::
     if(A_.activationStatus(k) != ActivationStatus::EQUALITY && A_.activationStatus(k) != ActivationStatus::FIXED
        && r[k] > 0)
     {
-      if(double tk = u[k] / r[k]; tk < t1)
+      double tk = u[k] / r[k];
+      if(tk < t1)
       {
         t1 = tk;
         l = k;
@@ -327,4 +340,5 @@ void GoldfarbIdnaniSolver::addInitialConstraint(const internal::ConstraintNormal
     // return TerminationStatus::LINEAR_DEPENDENCY_DETECTED;
   }
 }
-} // namespace jrl::qp
+} // namespace qp
+}

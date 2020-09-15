@@ -2,7 +2,9 @@
 
 #include <jrl-qp/DualSolver.h>
 
-namespace jrl::qp
+namespace jrl
+{
+namespace qp
 {
 DualSolver::DualSolver()
 : options_(SolverOptions()), log_(SolverOptions::defaultStream_, "log"), nbVar_(0), A_(0), f_(0), work_x_(0),
@@ -82,7 +84,8 @@ TerminationStatus DualSolver::solve()
   WVector u = work_u_.asVector(0);
   WVector r = work_r_.asVector(0);
 
-  if(auto rt = init(); !rt) // step 0
+  auto rt = init();
+  if(!rt) // step 0
     return terminate(rt);
 
   for(int it = 0; it < options_.maxIter_; ++it)
@@ -107,7 +110,10 @@ TerminationStatus DualSolver::solve()
 
     // Step 2
     computeStep(z, r, np);
-    auto [t1, t2, l] = computeStepLength(np, x, u, z, r);
+    auto stepl = computeStepLength(np, x, u, z, r);
+    auto t1 = stepl.t1;
+    auto t2 = stepl.t2;
+    auto l = stepl.l;
     double t = std::min(t1, t2);
     LOG_COMMENT(log_, LogFlags::ITERATION_BASIC_DETAILS, "Step computation");
     LOG(log_, LogFlags::ITERATION_BASIC_DETAILS, z, r, t);
@@ -246,4 +252,5 @@ void DualSolver::resize_p(int nbVar, int nbCstr, bool useBounds)
     work_r_.resize(nbCstr + nbBnd);
   }
 }
-} // namespace jrl::qp
+} // namespace qp
+}

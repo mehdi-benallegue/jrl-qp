@@ -5,7 +5,12 @@
 
 #include <jrl-qp/internal/ActiveSet.h>
 
-namespace jrl::qp::internal
+namespace jrl
+{
+namespace qp
+{
+namespace internal
+
 {
 ActiveSet::ActiveSet() : ActiveSet(0) {}
 
@@ -177,3 +182,5 @@ std::ostream & operator<<(std::ostream & os, const ActiveSet & a)
   return os;
 }
 } // namespace jrl::qp::internal
+} // namespace qp
+} // namespace jrl

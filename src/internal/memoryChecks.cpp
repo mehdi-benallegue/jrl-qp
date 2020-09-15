@@ -1,6 +1,10 @@
 #include <jrl-qp/internal/memoryChecks.h>
 
-namespace jrl::qp::internal
+namespace jrl
+{
+namespace qp
+{
+namespace internal
 {
 bool is_malloc_allowed_impl(bool update, bool new_value = false)
 {
@@ -22,3 +26,5 @@ bool set_is_malloc_allowed(bool allow)
   return Eigen::internal::set_is_malloc_allowed(allow);
 }
 } // namespace jrl::qp::internal
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

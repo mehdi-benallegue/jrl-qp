@@ -6,7 +6,11 @@
 
 #include <jrl-qp/api.h>
 
-namespace jrl::qp::internal
+namespace jrl
+{
+namespace qp
+{
+namespace internal
 {
 /** Check if dynamic allocation is allowed in Eigen operations. */
 void JRLQP_DLLAPI check_that_malloc_is_allowed();
@@ -14,3 +18,5 @@ void JRLQP_DLLAPI check_that_malloc_is_allowed();
 /** Allow or disallow dynamic allocation in Eigen operations. */
 bool JRLQP_DLLAPI set_is_malloc_allowed(bool allow);
 } // namespace jrl::qp::internal
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

@@ -124,6 +124,26 @@ constexpr int rangeSize()
 template<typename NVar, typename NEq, typename NIneq, typename NIneqAct, typename NBndAct>
 using SignatureType = std::array<int, rangeSize<NVar, NEq, NIneq, NIneqAct, NBndAct>()>;
 
+template<typename T, typename S, bool v = T::rangeSlot>
+class rangeTmplt
+{
+public:
+  static void process(const ::benchmark::State & st, S & ret)
+  {
+    ret[T::rangeIdx + 1] = st.range(T::rangeIdx);
+  }
+};
+
+template<typename T, typename S>
+class rangeTmplt<T, S, false>
+{
+public:
+  static void process(const ::benchmark::State & st, S & ret)
+  {
+    /// do nothing
+  }
+};
+
 /** Computation of a problem signature for a given ::benchmark::State*/
 template<typename NVar,
          typename NEq,
@@ -134,14 +154,15 @@ template<typename NVar,
          bool DoubleSided = false>
 SignatureType<NVar, NEq, NIneq, NIneqAct, NBndAct> problemSignature(const ::benchmark::State & st)
 {
-  SignatureType<NVar, NEq, NIneq, NIneqAct, NBndAct> ret;
+  typedef SignatureType<NVar, NEq, NIneq, NIneqAct, NBndAct> Signature;
+  Signature ret;
   ret[0] = packBool<Bounds, DoubleSided>();
-  if constexpr(NVar::rangeSlot) ret[NVar::rangeIdx + 1] = st.range(NVar::rangeIdx);
-  if constexpr(NEq::rangeSlot) ret[NEq::rangeIdx + 1] = st.range(NEq::rangeIdx);
-  if constexpr(NIneq::rangeSlot) ret[NIneq::rangeIdx + 1] = st.range(NIneq::rangeIdx);
-  if constexpr(NIneqAct::rangeSlot) ret[NIneqAct::rangeIdx + 1] = st.range(NIneqAct::rangeIdx);
-  if constexpr(NBndAct::rangeSlot) ret[NBndAct::rangeIdx + 1] = st.range(NBndAct::rangeIdx);
 
+  rangeTmplt<NVar, Signature>::process(st, ret);
+  rangeTmplt<NEq, Signature>::process(st, ret);
+  rangeTmplt<NIneq, Signature>::process(st, ret);
+  rangeTmplt<NIneqAct, Signature>::process(st, ret);
+  rangeTmplt<NBndAct, Signature>::process(st, ret);
   return ret;
 }
 
@@ -486,8 +507,19 @@ public:
 private:
   int i;
 
-  inline static std::map<Signature, ProblemCollection<NbPb>> problems = {};
+  static std::map<Signature, ProblemCollection<NbPb>> problems;
 };
+
+template<int NbPb,
+         typename NVar,
+         typename NEq,
+         typename NIneq,
+         typename NIneqAct,
+         bool Bounds,
+         typename NBndAct,
+         bool DoubleSided>
+std::map<SignatureType<NVar, NEq, NIneq, NIneqAct, NBndAct>, ProblemCollection<NbPb>>
+    ProblemFixture<NbPb, NVar, NEq, NIneq, NIneqAct, Bounds, NBndAct, DoubleSided>::problems = {};
 
 #include <iostream>
 

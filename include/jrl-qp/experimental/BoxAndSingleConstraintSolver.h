@@ -4,7 +4,11 @@
 
 #include <jrl-qp/GoldfarbIdnaniSolver.h>
 
-namespace jrl::qp::experimental
+namespace jrl
+{
+namespace qp
+{
+namespace experimental
 {
 /** A specialized solver for problems of the form
  * min. 0.5 ||x - x0||^2
@@ -31,9 +35,15 @@ private:
   Eigen::Matrix<double, 1, 1> bu_;
 };
 } // namespace jrl::qp::experimental
+}
+}
 
 #include <jrl-qp/test/problems.h>
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 /** Generate a problem
  * min. || x- x0 ||
@@ -47,3 +57,5 @@ namespace jrl::qp::test
 LeastSquareProblem<> JRLQP_DLLAPI generateBoxAndSingleConstraintProblem(int nbVar, bool act, double actLevel = 0.5);
 
 } // namespace jrl::qp::test
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

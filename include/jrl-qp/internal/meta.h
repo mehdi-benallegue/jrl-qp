@@ -4,7 +4,11 @@
 
 #include <type_traits>
 
-namespace jrl::qp::internal
+namespace jrl
+{
+namespace qp
+{
+namespace internal
 {
 /** An helper struct used by derives_from.*/
 template<template<typename...> class Base>
@@ -46,8 +50,8 @@ constexpr bool derives_from()
  * where Bi are types.
  * Use as template<typename T, enable_for_t<T,B1, B2, ..., ..., Bk>=0>
  */
-template<typename T, typename... Base>
-using enable_for_t = typename std::enable_if<(... || (std::is_same<T, Base>::value || derives_from<T, Base>())), int>::type;
+template<typename T, typename Base>
+using enable_for_t = typename std::enable_if<((std::is_same<T, Base>::value || derives_from<T, Base>())), int>::type;
 
 /** Used to enable a function for a list of templated classes.
  *
@@ -55,8 +59,8 @@ using enable_for_t = typename std::enable_if<(... || (std::is_same<T, Base>::val
  * where Bi are a templated classes.
  * Use as template<typename T, enable_for_templated_t<T,B1, B2, ..., ..., Bk>=0>
  */
-template<typename T, template<typename...> class... Base>
-using enable_for_templated_t = typename std::enable_if<(... || derives_from<T, Base>()), int>::type;
+template<typename T, typename Base>
+using enable_for_templated_t = typename std::enable_if< derives_from<T, Base>(), int>::type;
 
 /** A sink, whose value is always true. */
 template<typename T>
@@ -69,4 +73,7 @@ template<typename T>
 class always_false : public std::false_type
 {
 };
-} // namespace jrl::qp::internal
+} // namespace internal
+} // namespace qp
+   // namespace qp
+} // namespace jrl

@@ -3,7 +3,7 @@
 #pragma once
 
 #ifndef NO_LOG
-inline constexpr bool NO_LOG_ = 0;
+const bool NO_LOG_ = 0;
 #else
 inline constexpr bool NO_LOG_ = 1;
 #endif
@@ -11,7 +11,7 @@ inline constexpr bool NO_LOG_ = 1;
 #ifdef NDEBUG
 inline constexpr bool DEBUG_OUTPUT = 0;
 #else
-inline constexpr bool DEBUG_OUTPUT = 1;
+const bool DEBUG_OUTPUT = 1;
 #endif
 
 #define PP_ID(x) x

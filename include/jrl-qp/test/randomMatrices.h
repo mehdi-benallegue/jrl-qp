@@ -6,7 +6,11 @@
 
 #include <3rd-party/effolkronium/random.hpp>
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 /** Functor returning number following a normal distribution.*/
 template<typename Scalar>
@@ -216,3 +220,6 @@ inline std::pair<Eigen::MatrixXd, Eigen::MatrixXd> randDependent(Eigen::Index co
   return {A, B};
 }
 } // namespace jrl::qp::test
+} // namespace qp
+ // namespace qp
+} // namespace jrl // namespace jrl

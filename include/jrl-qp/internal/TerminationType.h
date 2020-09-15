@@ -5,7 +5,11 @@
 #include <jrl-qp/api.h>
 #include <jrl-qp/enums.h>
 
-namespace jrl::qp::internal
+namespace jrl
+{
+namespace qp
+{
+namespace internal
 {
 /** A utility class to indicate the termination status of a call to a function
  * or sub-function.
@@ -40,3 +44,5 @@ class InitTermination : public TerminationType
   using TerminationType::TerminationType;
 };
 } // namespace jrl::qp::internal
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

@@ -4,8 +4,11 @@
 
 #include <jrl-qp/defs.h>
 
-namespace jrl::qp
+namespace jrl
 {
+namespace qp
+{
+
 /** Activation status of a constraint.
  *
  * \internal Order matters: for example we compare values to LOWER_BOUND to
@@ -63,3 +66,4 @@ inline std::uint32_t operator|(LogFlags a, std::uint32_t b)
   return static_cast<std::uint32_t>(a) | b;
 }
 } // namespace jrl::qp
+}

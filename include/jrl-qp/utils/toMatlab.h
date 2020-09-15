@@ -5,8 +5,11 @@
 #include <Eigen/Dense>
 #include <iosfwd>
 #include <jrl-qp/internal/meta.h>
-
-namespace jrl::qp::utils
+namespace jrl
+{
+namespace qp
+{
+namespace utils
 {
 /** Accept any class That convert to Eigen::Ref<const Eigen::MatrixXd>.*/
 static std::true_type isConvertibleToRef_(const Eigen::Ref<const Eigen::MatrixXd> &);
@@ -17,7 +20,10 @@ static std::false_type isConvertibleToRef_(...);
  * Adapted from https://stackoverflow.com/a/5998303/11611648
  */
 template<typename T>
-inline constexpr bool is_convertible_to_eigen_ref_v = decltype(isConvertibleToRef_(std::declval<const T &>()))::value;
+class is_convertible_to_eigen_ref_v
+{
+  static constexpr bool value = decltype(isConvertibleToRef_(std::declval<const T &>()))::value;
+};
 
 /** A small utility class to write Eigen matrices in a stream with a matlab-readable format.
  *
@@ -32,7 +38,7 @@ class toMatlab
 public:
   toMatlab(const Eigen::Ref<const Eigen::MatrixXd> & M) : mat(M) {}
 
-  template<typename Derived, typename std::enable_if<!is_convertible_to_eigen_ref_v<Derived>, int>::type = 0>
+  template<typename Derived, class = typename std::enable_if<true, int>::type>
   toMatlab(const Eigen::EigenBase<Derived> & M) : tmp(M), mat(tmp)
   {
   }
@@ -58,4 +64,6 @@ inline std::ostream & operator<<(std::ostream & o, const toMatlab & tom)
   }
   return o;
 }
-} // namespace jrl::qp::utils
+} // namespace utils
+} // namespace qp // namespace qp
+} // namespace jrl

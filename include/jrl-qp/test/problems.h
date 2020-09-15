@@ -5,7 +5,11 @@
 #include <Eigen/Core>
 #include <jrl-qp/api.h>
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 struct JRLQP_DLLAPI SeparatedFeasibilityConstraints;
 
@@ -144,3 +148,5 @@ inline bool QPProblem<Separated>::wellFormed() const
   return b1 && b2 && b3 && b4;
 }
 } // namespace jrl::qp::test
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

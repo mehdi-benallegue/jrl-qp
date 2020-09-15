@@ -169,7 +169,11 @@ ParsedValueLine parseValueLine(const std::string & line, const QPSReader::Contex
 }
 } // namespace
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 QPSReader::QPSReader(bool fullObjMat) : fullObjMat(fullObjMat) {}
 
@@ -217,7 +221,9 @@ std::pair<QPProblem<>, ProblemProperties> QPSReader::read(const std::string & fi
   for(const auto & t : CVal) qp.C(std::get<0>(t), std::get<1>(t)) = std::get<2>(t);
   for(const auto & r : mapRow)
   {
-    auto [i, type] = r.second;
+    auto sec = r.second;
+    auto i = sec.first;
+    auto type = sec.second;
     switch(type)
     {
       case RowType::E:
@@ -238,7 +244,10 @@ std::pair<QPProblem<>, ProblemProperties> QPSReader::read(const std::string & fi
   }
   for(const auto & b : bVal)
   {
-    auto [i, v] = b.first;
+    auto fir = b.first;
+    auto i = fir.first;
+    auto v =  fir.second;
+    
     switch(b.second)
     {
       case RowType::E:
@@ -259,7 +268,9 @@ std::pair<QPProblem<>, ProblemProperties> QPSReader::read(const std::string & fi
   }
   for(const auto & r : rVal)
   {
-    auto [i, v] = r.first;
+    auto fir = r.first;
+    auto i = fir.first;
+    auto v = fir.second;
     switch(r.second)
     {
       case RowType::E:
@@ -282,7 +293,9 @@ std::pair<QPProblem<>, ProblemProperties> QPSReader::read(const std::string & fi
   properties.hasFixedVariables = false;
   for(const auto & x : xVal)
   {
-    auto [i, v] = x.first;
+    auto fir = x.first;
+    auto i = fir.first;
+    auto v = fir.second;
     switch(x.second)
     {
       case BndType::LO:
@@ -351,7 +364,9 @@ void QPSReader::processLine(const std::string & line, LineType type)
 
 void QPSReader::readRow(const std::string & line)
 {
-  auto [type, name] = parseRow(line, context);
+  auto par = parseRow(line, context);
+  auto type = par.first;
+  auto name = par.second;
   if(mapRow.find(name) != mapRow.end()) THROW("Duplicate row name", context);
 
   if(type == RowType::UNKNOWN)
@@ -379,7 +394,8 @@ void QPSReader::readColumn(const std::string & line)
 
   // If this is a new column, add it to mapCol, otherwise retrieve its index
   int cIdx;
-  if(auto it = mapCol.find(colName); it != mapCol.end())
+  auto it = mapCol.find(colName);
+  if(it != mapCol.end())
   {
     cIdx = it->second;
   }
@@ -396,7 +412,9 @@ void QPSReader::readColumn(const std::string & line)
 
 void QPSReader::addValueToColumn(int cIdx, const std::string & rowName, double val)
 {
-  auto [rIdx, rType] = mapRow.at(rowName);
+  auto mprow = mapRow.at(rowName);
+  auto rIdx = mprow.first;
+  auto rType = mprow.second;
   if(rType == RowType::N)
     aVal.push_back({cIdx, val});
   else
@@ -449,7 +467,10 @@ void QPSReader::readRanges(const std::string & line)
 
 void QPSReader::addValueToRanges(const std::string & rowName, double val)
 {
-  auto [rIdx, rType] = mapRow.at(rowName);
+  auto mprow = mapRow.at(rowName);
+  auto rIdx = mprow.first;
+  auto rType = mprow.second;
+
   if(rType == RowType::N) THROW("Attempting to add range on a N row ", context);
   rVal.push_back({{rIdx, val}, rType});
 }
@@ -503,4 +524,6 @@ void QPSReader::readQuadObj(const std::string & line)
     GVal.push_back({rIdx, cIdx, val2.value});
   }
 }
-} // namespace jrl::qp::test
+} // namespace test
+} // namespace qp // namespace qp
+} // namespace jrl

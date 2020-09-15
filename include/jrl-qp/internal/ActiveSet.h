@@ -8,7 +8,11 @@
 #include <jrl-qp/api.h>
 #include <jrl-qp/enums.h>
 
-namespace jrl::qp::internal
+namespace jrl
+{
+namespace qp
+{
+namespace internal
 {
 /** A class to track the active status of a set of constraints and bounds.
  *
@@ -171,3 +175,6 @@ private:
 /** Printing an active set to a stream. */
 std::ostream & operator<<(std::ostream & os, const ActiveSet & a);
 } // namespace jrl::qp::internal
+} // namespace qp
+ // namespace qp
+} // namespace jrl // namespace jrl

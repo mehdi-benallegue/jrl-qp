@@ -10,7 +10,11 @@
 #include <jrl-qp/internal/meta.h>
 #include <jrl-qp/utils/toMatlab.h>
 
-namespace jrl::qp::utils
+namespace jrl
+{
+namespace qp
+{
+namespace utils
 {
 /** Class for logging data in a Matlab-compatible way, with a filter based on
  * a system of binary flags.
@@ -127,7 +131,7 @@ inline void Logger::log_(const std::string & valName, const T & val, Args &&... 
 template<bool, typename T>
 inline void Logger::log_(const T &) const
 {
-  static_assert(internal::always_false<T>::value && "incorrect number of arguments.");
+  static_assert(internal::always_false<T>::value ,"incorrect number of arguments.");
 }
 
 template<bool b, typename Derived>
@@ -142,3 +146,5 @@ inline void Logger::logVal_(const std::string & valName, const Other & val) cons
   logIter<b>() << "." << valName << " = " << val << ";\n";
 }
 } // namespace jrl::qp::utils
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

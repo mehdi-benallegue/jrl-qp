@@ -5,8 +5,11 @@
 #include <Eigen/Core>
 
 #include <jrl-qp/api.h>
-
-namespace jrl::qp::internal
+namespace jrl
+{
+namespace qp
+{
+namespace internal
 {
 /** Dummy struct to disambiguate call to non-const methods.*/
 struct NotConst
@@ -117,12 +120,17 @@ public:
   }
 
 };
-} // namespace jrl::qp::internal
+} // namespace internal
+} // namespace qp
+} // namespace jrl
 
-namespace jrl::qp
+namespace jrl
+{
+namespace qp
 {
 /** Type of a Eigen::Vector-like object from Workspace*/
 using WVector = decltype(internal::Workspace<double>().asVector(0));
 /** Type of a const Eigen::Vector-like object from Workspace*/
 using WConstVector = decltype(std::add_const<internal::Workspace<double> >::type{}.asVector(0));
 } // namespace jrl::qp
+} // namespace jrl // namespace jrl

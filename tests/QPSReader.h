@@ -12,7 +12,11 @@
 
 #include <jrl-qp/test/problems.h>
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 struct ProblemProperties
 {
@@ -115,3 +119,5 @@ private:
   bool objWasRead = false;
 };
 } // namespace jrl::qp::test
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

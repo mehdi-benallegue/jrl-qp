@@ -22,7 +22,11 @@ bool checkKKTConstraint(double cx, double bl, double bu, double u, double tau_x,
 }
 } // namespace
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 void checkDimensions([[maybe_unused]] int n,
                      [[maybe_unused]] const MatrixConstRef & C,
@@ -197,3 +201,5 @@ bool JRLQP_DLLAPI testKKTFeasibility(const VectorConstRef & x,
 }
 
 } // namespace jrl::qp::test
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

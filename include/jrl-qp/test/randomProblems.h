@@ -6,7 +6,11 @@
 #include <jrl-qp/api.h>
 #include <jrl-qp/test/problems.h>
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 // Description of the characteristics of a least-square problem
 // min. 0.5 ||A x - b||^2
@@ -145,3 +149,6 @@ struct JRLQP_DLLAPI RandomLeastSquare : public LeastSquareProblem<true>
 RandomLeastSquare JRLQP_DLLAPI randomProblem(const ProblemCharacteristics & characs);
 
 } // namespace jrl::qp::test
+} // namespace qp
+ // namespace qp
+} // namespace jrl // namespace jrl

@@ -5,7 +5,11 @@
 #include <jrl-qp/defs.h>
 #include <jrl-qp/test/problems.h>
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 /** Check that all the matrix and vector dimensions of the following QP problem
  * are consistent:
@@ -144,3 +148,6 @@ bool JRLQP_DLLAPI testKKTFeasibility(const VectorConstRef & x,
                                      double tau_p = 1e-6,
                                      double tau_d = 1e-6);
 } // namespace jrl::qp::test
+} // namespace qp
+ // namespace qp
+} // namespace jrl // namespace jrl

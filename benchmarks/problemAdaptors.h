@@ -5,8 +5,13 @@
 
 #include <jrl-qp/test/problems.h>
 
-namespace jrl::qp::test
+namespace jrl
 {
+namespace qp
+{
+namespace test
+{
+
 struct GIPb : public QPProblem<>
 {
   GIPb() = default;
@@ -63,4 +68,6 @@ struct QLDPb
   Eigen::VectorXd xl;
   Eigen::VectorXd xu;
 };
-} // namespace jrl::qp::test
+} // namespace test
+} // namespace qp
+} // namespace jrl

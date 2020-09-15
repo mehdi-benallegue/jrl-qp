@@ -38,7 +38,11 @@ int mi(const QPProblem<true> & pb)
 }
 } // namespace
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 
 EigenQuadprogPb::EigenQuadprogPb(const QPProblem<true> & pb)
@@ -211,3 +215,6 @@ GIPb::GIPb(const QPProblem<true> & pb) : QPProblem<>(pb)
   if(!transposedMat) C.transposeInPlace();
 }
 } // namespace jrl::qp::test
+} // namespace qp
+ 
+} // namespace jrl // namespace jrl

@@ -2,7 +2,11 @@
 
 #include <jrl-qp/experimental/BoxAndSingleConstraintSolver.h>
 
-namespace jrl::qp::experimental
+namespace jrl
+{
+namespace qp
+{
+namespace experimental
 {
 BoxAndSingleConstraintSolver::BoxAndSingleConstraintSolver() : GoldfarbIdnaniSolver() {}
 
@@ -93,8 +97,14 @@ internal::InitTermination BoxAndSingleConstraintSolver::init_()
   return TerminationStatus::SUCCESS;
 }
 } // namespace jrl::qp::experimental
+}
+}
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 LeastSquareProblem<> generateBoxAndSingleConstraintProblem(int nbVar, bool act, double actLevel)
 {
@@ -173,3 +183,5 @@ LeastSquareProblem<> generateBoxAndSingleConstraintProblem(int nbVar, bool act, 
   return pb;
 }
 } // namespace jrl::qp::test
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

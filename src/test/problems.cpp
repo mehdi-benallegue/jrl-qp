@@ -2,7 +2,11 @@
 
 #include <jrl-qp/test/problems.h>
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 FeasibilityConstraints::FeasibilityConstraints(const SeparatedFeasibilityConstraints & cstr)
 : C(cstr.transposedMat ? cstr.C.rows() : cstr.C.rows() + cstr.E.rows(),
@@ -111,3 +115,5 @@ bool SeparatedFeasibilityConstraints::wellFormed() const
   return b1 && b2 && b3;
 }
 } // namespace jrl::qp::test
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

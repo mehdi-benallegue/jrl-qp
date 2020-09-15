@@ -11,7 +11,11 @@
 #include <jrl-qp/enums.h>
 #include <jrl-qp/utils/toMatlab.h>
 
-namespace jrl::qp::internal
+namespace jrl
+{
+namespace qp
+{
+namespace internal
 {
 /** A class to represent the vector \p n of a constraint \f$ n^T x op b \f$.
  *
@@ -148,3 +152,5 @@ private:
 };
 
 } // namespace jrl::qp::internal
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

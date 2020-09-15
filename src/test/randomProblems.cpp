@@ -10,7 +10,11 @@
 
 using namespace Eigen;
 
-namespace jrl::qp::test
+namespace jrl
+{
+namespace qp
+{
+namespace test
 {
 RandomLeastSquare randomProblem(const ProblemCharacteristics & characs)
 {
@@ -222,7 +226,7 @@ RandomLeastSquare randomProblem(const ProblemCharacteristics & characs)
   }
 
   // 6 - Up to now, the constraints/bounds have been order as strongly acive, weakly active
-  // and inactive. We randomize this order using Fisher–Yates shuffle algorithm.
+  // and inactive. We randomize this order using Fisherï¿½Yates shuffle algorithm.
   for(int i = nIneq - 1; i > 0; --i)
   {
     int j = effolkronium::random_static::get(0, i);
@@ -294,3 +298,5 @@ void RandomLeastSquare::disp() const
   std::cout << "lambdaBnd = \n" << lambdaBnd.transpose() << std::endl;
 }
 } // namespace jrl::qp::test
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

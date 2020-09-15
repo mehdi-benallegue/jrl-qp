@@ -2,7 +2,11 @@
 
 #include <jrl-qp/utils/Logger.h>
 
-namespace jrl::qp::utils
+namespace jrl
+{
+namespace qp
+{
+namespace utils
 {
 Logger & Logger::setFlag(std::uint32_t flag, bool add)
 {
@@ -35,3 +39,5 @@ Logger Logger::subLog(const std::string & name) const
   return {*os_, name_ + "(" + std::to_string(iter_ + 1) + ")." + name, flags_};
 }
 } // namespace jrl::qp::utils
+} // namespace qp // namespace qp
+} // namespace jrl // namespace jrl

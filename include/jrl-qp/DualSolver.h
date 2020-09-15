@@ -14,7 +14,9 @@
 #include <jrl-qp/utils/Logger.h>
 #include <jrl-qp/utils/debug.h>
 
-namespace jrl::qp
+namespace jrl
+{
+namespace qp
 {
 /** Base class for dual QP solver. It implements the general logic of the
  * Goldfarb-Idnani paper, and relies on call to virtual functions to do the
@@ -124,3 +126,4 @@ protected:
 };
 
 } // namespace jrl::qp
+} // namespace jrl // namespace jrl 
