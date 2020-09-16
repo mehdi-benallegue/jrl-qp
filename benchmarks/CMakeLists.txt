@@ -54,7 +54,7 @@ endmacro()
 file(MAKE_DIRECTORY out)
 
 addBenchmark(BasicEigen)
-addBenchmark(Decomposition)
+#addBenchmark(Decomposition)
 addBenchmark(LinearSystemSolving)
 
 addBenchmark(Solvers problemAdaptors.cpp)

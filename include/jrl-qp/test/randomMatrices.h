@@ -3,6 +3,7 @@
 #pragma once
 
 #include <Eigen/Core>
+#include <Eigen/src/Core/CwiseBinaryOp.h>
 
 #include <3rd-party/effolkronium/random.hpp>
 
@@ -23,6 +24,33 @@ struct scalar_normal_random_op
     return effolkronium::random_static::get(d_);
   }
 
+  inline const Scalar operator()(const Eigen::Index & size) const
+  {
+    // Eigen::VectorXd v(size);
+    // for(int i=0;i<size;++i)
+    // {
+    //   v(i) = effolkronium::random_static::get(d_);
+    // } 
+    // return v;
+
+    return effolkronium::random_static::get(d_);
+  }
+
+  inline const Scalar operator()(const Eigen::Index & rows,const Eigen::Index & cols) const
+  {
+    // Eigen::MatrixXd m(rows, cols);
+    // for(int i=0;i<rows;++i)
+    // {
+    //   for (int j = 0; j < cols; ++j)
+    //   {
+    //     m(i,j) = effolkronium::random_static::get(d_);
+    //   }  
+    // } 
+    // return m;
+    return effolkronium::random_static::get(d_);
+  }
+
+
   mutable std::normal_distribution<Scalar> d_;
 };
 
@@ -31,8 +59,9 @@ struct scalar_normal_random_op
  * \param mean Mean parameter of the normal distribution.
  * \param stddev Standard deviation parameter of the normal distribution.
  */
-inline auto randnVec(Eigen::Index size, double mean = 0, double stddev = 1)
-    -> decltype(Eigen::VectorXd::NullaryExpr(size, scalar_normal_random_op<double>(mean, stddev)))
+inline const Eigen::VectorXd
+  randnVec(Eigen::Index size, double mean = 0, double stddev = 1)
+   
 {
   return Eigen::VectorXd::NullaryExpr(size, scalar_normal_random_op<double>(mean, stddev));
 }
@@ -42,10 +71,13 @@ inline auto randnVec(Eigen::Index size, double mean = 0, double stddev = 1)
  * \param cols Number of columns of the matrix.
  * \param mean Mean parameter of the normal distribution.
  * \param stddev Standard deviation parameter of the normal distribution.
+ * 
  */
-inline auto randnMat(Eigen::Index rows, Eigen::Index cols, double mean = 0, double stddev = 1)
-    -> decltype(Eigen::MatrixXd::NullaryExpr(rows, cols, scalar_normal_random_op<double>(mean, stddev)))
+
+inline const Eigen::MatrixXd
+ randnMat(Eigen::Index rows, Eigen::Index cols, double mean = 0, double stddev = 1)
 {
+  
   return Eigen::MatrixXd::NullaryExpr(rows, cols, scalar_normal_random_op<double>(mean, stddev));
 }
 
@@ -54,7 +86,7 @@ inline auto randnMat(Eigen::Index rows, Eigen::Index cols, double mean = 0, doub
  */
 inline Eigen::VectorXd randUnitVec(Eigen::Index size)
 {
-  Eigen::VectorXd r = randnVec(size);
+  Eigen::VectorXd r = randnVec(size,0.,1.);
   r.normalize();
   return r;
 }
