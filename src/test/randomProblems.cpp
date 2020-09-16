@@ -19,8 +19,20 @@ namespace test
 RandomLeastSquare randomProblem(const ProblemCharacteristics & characs)
 {
   characs.check();
-  auto [nVar, nObj, nEq, nIneq, rankObj, nSharedRank, nStrongActIneq, nWeakActIneq, nStrongActBounds, nWeakActBounds,
-        bounds, doubleSidedIneq, strictlyFeasible] = characs;
+  auto ch = characs;
+  auto nVar  = characs.nVar_ ;
+  auto nObj = characs.nObj_ ;
+  auto nEq = characs.nEq_ ;
+  auto nIneq  = characs.nIneq_ ;
+  auto rankObj = characs.rankObj_ ;
+  auto nSharedRank = characs.nSharedRank_ ;
+  auto nStrongActIneq = characs.nStrongActIneq_ ;
+  auto nWeakActIneq  = characs.nWeakActIneq_ ;
+  auto nStrongActBounds = characs.nStrongActBounds_ ;
+  auto nWeakActBounds = characs.nWeakActBounds_ ;
+  auto bounds = characs. bounds_ ;
+  auto doubleSidedIneq = characs. doubleSidedIneq_ ;
+  auto strictlyFeasible = characs. strictlyFeasible_ ;
 
   int nstrongGeneral = nEq + nStrongActIneq;
   int nstrong = nstrongGeneral + nStrongActBounds; //<=nVar_
