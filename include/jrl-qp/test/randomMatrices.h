@@ -19,6 +19,16 @@ struct scalar_normal_random_op
     return effolkronium::random_static::get(d_);
   }
 
+    inline const Scalar operator()(const Eigen::Index & size) const
+  {
+    return effolkronium::random_static::get(d_);
+  }
+
+  inline const Scalar operator()(const Eigen::Index & rows,const Eigen::Index & cols) const
+  {
+    return effolkronium::random_static::get(d_);
+  }
+
   mutable std::normal_distribution<Scalar> d_;
 };
 
