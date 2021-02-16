@@ -5,11 +5,11 @@
 #ifndef NO_LOG
 const bool NO_LOG_ = 0;
 #else
-inline constexpr bool NO_LOG_ = 1;
+const bool NO_LOG_ = 1;
 #endif
 
 #ifdef NDEBUG
-inline constexpr bool DEBUG_OUTPUT = 0;
+const bool DEBUG_OUTPUT = 0;
 #else
 const bool DEBUG_OUTPUT = 1;
 #endif
