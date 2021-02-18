@@ -516,11 +516,11 @@ void QPSReader::readQuadObj(const std::string & line)
 
   int cIdx = mapCol.at(colName);
   int rIdx = mapCol.at(val1.name);
-  GVal.push_back({rIdx, cIdx, val1.value});
+  GVal.push_back(matrixVal{rIdx, cIdx, val1.value});
   if(val2.name != "_MEHDI_EDIT_empty-name")
   {
     rIdx = mapCol.at(val2.name);
-    GVal.push_back({rIdx, cIdx, val2.value});
+    GVal.push_back(matrixVal{rIdx, cIdx, val2.value});
   }
 }
 } // namespace test
