@@ -417,7 +417,7 @@ void QPSReader::addValueToColumn(int cIdx, const std::string & rowName, double v
   if(rType == RowType::N)
     aVal.push_back({cIdx, val});
   else
-    CVal.push_back({rIdx, cIdx, val});
+    CVal.push_back(matrixVal{rIdx, cIdx, val});
 }
 
 void QPSReader::readRHS(const std::string & line)
