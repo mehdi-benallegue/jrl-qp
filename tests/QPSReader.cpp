@@ -4,7 +4,6 @@
 #include <cctype>
 #include <exception>
 #include <fstream>
-#include <optional>
 #include <sstream>
 #include <unordered_map>
 #include <vector>
