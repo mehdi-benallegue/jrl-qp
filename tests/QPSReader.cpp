@@ -4,7 +4,6 @@
 #include <cctype>
 #include <exception>
 #include <fstream>
-#include <optional>
 #include <sstream>
 #include <unordered_map>
 #include <vector>
@@ -418,7 +417,7 @@ void QPSReader::addValueToColumn(int cIdx, const std::string & rowName, double v
   if(rType == RowType::N)
     aVal.push_back({cIdx, val});
   else
-    CVal.push_back({rIdx, cIdx, val});
+    CVal.push_back(matrixVal{rIdx, cIdx, val});
 }
 
 void QPSReader::readRHS(const std::string & line)
@@ -517,11 +516,11 @@ void QPSReader::readQuadObj(const std::string & line)
 
   int cIdx = mapCol.at(colName);
   int rIdx = mapCol.at(val1.name);
-  GVal.push_back({rIdx, cIdx, val1.value});
+  GVal.push_back(matrixVal{rIdx, cIdx, val1.value});
   if(val2.name != "_MEHDI_EDIT_empty-name")
   {
     rIdx = mapCol.at(val2.name);
-    GVal.push_back({rIdx, cIdx, val2.value});
+    GVal.push_back(matrixVal{rIdx, cIdx, val2.value});
   }
 }
 } // namespace test
