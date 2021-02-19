@@ -11,10 +11,13 @@ namespace qp
 {
 namespace utils
 {
-/** Accept any class That convert to Eigen::Ref<const Eigen::MatrixXd>.*/
-static std::true_type isConvertibleToRef_(const Eigen::Ref<const Eigen::MatrixXd> &);
-/** Fallback function that will be used for type not convertible to Eigen::Ref<const Eigen::MatrixXd>. */
-static std::false_type isConvertibleToRef_(...);
+struct _test_convertible_to_eigen
+{
+  /** Accept any class That convert to Eigen::Ref<const Eigen::MatrixXd>.*/
+  static std::true_type isConvertibleToRef_(const Eigen::Ref<const Eigen::MatrixXd> &);
+  /** Fallback function that will be used for type not convertible to Eigen::Ref<const Eigen::MatrixXd>. */
+  static std::false_type isConvertibleToRef_(...);
+};
 
 /** Check if class \t T can be converted to Eigen::Ref<const Eigen::MatrixXd>.
  * Adapted from https://stackoverflow.com/a/5998303/11611648
@@ -22,7 +25,7 @@ static std::false_type isConvertibleToRef_(...);
 template<typename T>
 class is_convertible_to_eigen_ref_v
 {
-  static constexpr bool value = decltype(isConvertibleToRef_(std::declval<const T &>()))::value;
+  static constexpr bool value = decltype(_test_convertible_to_eigen::isConvertibleToRef_(std::declval<const T &>()))::value;
 };
 
 /** A small utility class to write Eigen matrices in a stream with a matlab-readable format.
